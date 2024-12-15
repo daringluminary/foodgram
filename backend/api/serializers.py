@@ -3,7 +3,6 @@ from django.conf import settings
 from django.db import models, transaction
 from rest_framework.validators import UniqueTogetherValidator
 from users.models import Follow, User
-from djoser.serializers import UserSerializer
 from django.core.files.base import ContentFile
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import (exceptions, fields, relations, serializers,
