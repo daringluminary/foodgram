@@ -13,7 +13,7 @@ class IngredientFilter(FilterSet):
 
 
 class RecipeFilter(FilterSet):
-    author = django_filters.CharFilter()
+    # author = django_filters.CharFilter()
     tags = django_filters.AllValuesMultipleFilter(
         field_name='tags__slug', lookup_expr='contains'
     )
@@ -24,7 +24,9 @@ class RecipeFilter(FilterSet):
 
     class Meta:
         model = Recipe
-        fields = ['author', 'tags', 'is_favorited', 'is_in_shopping_cart']
+        fields = (('author'), ('tags'), ('is_favorited'),
+                  ('is_in_shopping_cart'))
+        # fields = ['author', 'tags', 'is_favorited', 'is_in_shopping_cart']
 
     def filter_is_favorited(self, queryset, name, values):
         user = self.request.user

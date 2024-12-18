@@ -25,13 +25,13 @@ class IngredientTagRecipe(models.Model):
 class Tag(models.Model):
     name = models.CharField(
         "Название тега",
-        max_length=32,
+        max_length=settings.MAX_LENG,
         unique=True,
         help_text="Название тега, не более 32 символов.",
     )
     slug = models.SlugField(
         "Слаг тега",
-        max_length=32,
+        max_length=settings.MAX_LENG,
         unique=True,
         help_text="Слаг тега, не более 32 символов.",
     )
@@ -62,6 +62,19 @@ class Ingredient(IngredientTagRecipe):
             models.UniqueConstraint(fields=['name', 'measurement_unit'],
                                     name='unique_ingredient')
         ]
+    class Meta:
+        verbose_name = "Ингредиент"
+        verbose_name_plural = "Ингредиенты"
+        ordering = ["name"]
+
+    # def __str__(self) -> str:
+    #     return self.name
+    def __str__(self):
+        return (
+            f'{self.ingredient.name} ({self.ingredient.measurement_unit})'
+            f' - {self.amount}'
+        )
+
 
 
 class Recipe(models.Model):
@@ -175,13 +188,13 @@ class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name="RecipeIngredient",
+        related_name="Recipe_ingredient",
         verbose_name="Рецепт",
     )
     ingredient = models.ForeignKey(
         Ingredient,
         on_delete=models.CASCADE,
-        related_name="RecipeIngredient",
+        related_name="Recipe_ingredient",
         verbose_name="Ингредиент из рецепта",
     )
     amount = models.PositiveIntegerField(
@@ -192,6 +205,8 @@ class RecipeIngredient(models.Model):
         ],
         help_text="Количество ингредиента в рецепте от 1 до 32000.",
     )
+    
+    
 
 
 class ShoppingCart(models.Model):

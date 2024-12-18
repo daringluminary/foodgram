@@ -149,6 +149,7 @@ TAG_ERROR = 'Рецепт не может быть без тегов!'
 TAG_UNIQUE_ERROR = 'Теги должны быть уникальными!'
 ALREADY_BUY = 'Вы уже добавили рецепт в список покупок.'
 LENG_MAX = 200
+MAX_LENG = 32
 MAX_NUMBER_OF_CHARACTERS = f'Количество символов не более {LENG_MAX}.'
 LEN_RECIPE_NAME = 256
 MIN_COOKING_TIME = 1

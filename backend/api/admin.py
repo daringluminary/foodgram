@@ -1,26 +1,31 @@
 from django.contrib import admin
-from .models import (Favourites, Ingredient, Recipe, RecipeIngredient,
+from .models import (Favourites, Ingredient, Recipe, IngredientInRecipe,
                      ShoppingCart, Tag)
 
 
 class RecipeIngredientInline(admin.TabularInline):
-    model = RecipeIngredient
+    model = IngredientInRecipe
     extra = 1
+    min_num = 1
 
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ("name", "author", "cooking_time", "favorite_count")
+    # , "tags", "get_tags"
     list_filter = ("name", "author", "tags")
     search_fields = ("name", "author", "tags")
     inlines = (RecipeIngredientInline,)
     empty_value_display = "-пусто-"
 
+    @admin.display(description='Количество в избранных')
     def favorite_count(self, obj):
-        return obj.in_favourites.count()
-
-    favorite_count.short_description = "Количество добавлений в избранное"
-
+        """Получаем количество избранных."""
+        return obj.favorites.count()
+    # @admin.display(description='Тэги')
+    # def get_tags(self, obj):
+    #     """Получаем теги."""
+    #     return ', '.join(_.name for _ in obj.tags.all())
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
@@ -30,7 +35,7 @@ class IngredientAdmin(admin.ModelAdmin):
     empty_value_display = "-пусто-"
 
 
-@admin.register(RecipeIngredient)
+@admin.register(IngredientInRecipe)
 class RecipeIngredientAdmin(admin.ModelAdmin):
     list_display = ("recipe", "ingredient", "amount")
 
