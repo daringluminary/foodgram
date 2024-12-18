@@ -8,7 +8,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework import (exceptions, fields, relations, serializers,
                             status, validators)
 
-from .models import (Favorite, Favourites, IngredientInRecipe,
+from .models import (Favourites, IngredientInRecipe,
                      RecipeIngredient, ShoppingCart, Tag, Ingredient, Recipe)
 
 
@@ -230,11 +230,11 @@ class AddFavoriteRecipeSerializer(serializers.ModelSerializer):
     """Сериализатор добавления рецептов в избранное."""
 
     class Meta:
-        model = Favorite
+        model = Favourites
         fields = ('user', 'recipe')
         validators = [
             validators.UniqueTogetherValidator(
-                queryset=Favorite.objects.all(),
+                queryset=Favourites.objects.all(),
                 fields=['user', 'recipe'],
                 message=settings.RECIPE_IN_FAVORITE
             )
