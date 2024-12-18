@@ -517,4 +517,3 @@ class FavouriteAndShoppingCrtSerializer(serializers.ModelSerializer):
             'image',
             'cooking_time'
         )
-#######################

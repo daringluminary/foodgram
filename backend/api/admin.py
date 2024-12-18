@@ -22,10 +22,7 @@ class RecipeAdmin(admin.ModelAdmin):
     def favorite_count(self, obj):
         """Получаем количество избранных."""
         return obj.favorites.count()
-    # @admin.display(description='Тэги')
-    # def get_tags(self, obj):
-    #     """Получаем теги."""
-    #     return ', '.join(_.name for _ in obj.tags.all())
+
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):

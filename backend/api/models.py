@@ -62,19 +62,16 @@ class Ingredient(IngredientTagRecipe):
             models.UniqueConstraint(fields=['name', 'measurement_unit'],
                                     name='unique_ingredient')
         ]
+
     class Meta:
         verbose_name = "Ингредиент"
         verbose_name_plural = "Ингредиенты"
         ordering = ["name"]
 
-    # def __str__(self) -> str:
-    #     return self.name
     def __str__(self):
         return (
-            f'{self.ingredient.name} ({self.ingredient.measurement_unit})'
-            f' - {self.amount}'
+            f'{self.name} ({self.measurement_unit})'
         )
-
 
 
 class Recipe(models.Model):
@@ -205,8 +202,6 @@ class RecipeIngredient(models.Model):
         ],
         help_text="Количество ингредиента в рецепте от 1 до 32000.",
     )
-    
-    
 
 
 class ShoppingCart(models.Model):
