@@ -1,5 +1,4 @@
 import base64
-from django.conf import settings
 from django.db import models, transaction
 from rest_framework.validators import UniqueTogetherValidator
 from users.models import Follow, User
@@ -9,6 +8,11 @@ from rest_framework import (exceptions, fields, relations, serializers,
                             status, validators)
 from .models import (Favourites, IngredientInRecipe,
                      RecipeIngredient, ShoppingCart, Tag, Ingredient, Recipe)
+from backend.constants import (DUBLICAT_USER, SELF_FOLLOW, ALREADY_BUY,
+                               RECIPE_IN_FAVORITE, COOKING_TIME_MIN_ERROR,
+                               TAG_ERROR, TAG_UNIQUE_ERROR,
+                               INGREDIENT_MIN_AMOUNT_ERROR,
+                               INGREDIENT_DUBLICATE_ERROR,)
 
 
 class Base64ImageField(serializers.ImageField):
@@ -76,12 +80,12 @@ class FollowSerializer(UserSerializer):
         user = self.context.get('request').user
         if Follow.objects.filter(user=user, author=author).exists():
             raise exceptions.ValidationError(
-                detail=settings.DUBLICAT_USER,
+                detail=DUBLICAT_USER,
                 code=status.HTTP_400_BAD_REQUEST
             )
         if user == author:
             raise exceptions.ValidationError(
-                detail=settings.SELF_FOLLOW,
+                detail=SELF_FOLLOW,
                 code=status.HTTP_400_BAD_REQUEST
             )
         return data
@@ -235,7 +239,7 @@ class AddFavoriteRecipeSerializer(serializers.ModelSerializer):
             validators.UniqueTogetherValidator(
                 queryset=Favourites.objects.all(),
                 fields=['user', 'recipe'],
-                message=settings.RECIPE_IN_FAVORITE
+                message=RECIPE_IN_FAVORITE
             )
         ]
 
@@ -436,18 +440,18 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         ingredients = self.initial_data.get('ingredients')
         if len(ingredients) <= 0:
             raise exceptions.ValidationError(
-                {'ingredients': settings.INGREDIENT_MIN_AMOUNT_ERROR}
+                {'ingredients': INGREDIENT_MIN_AMOUNT_ERROR}
             )
         ingredients_list = []
         for item in ingredients:
             if item['id'] in ingredients_list:
                 raise exceptions.ValidationError(
-                    {'ingredients': settings.INGREDIENT_DUBLICATE_ERROR}
+                    {'ingredients': INGREDIENT_DUBLICATE_ERROR}
                 )
             ingredients_list.append(item['id'])
             if int(item['amount']) <= 0:
                 raise exceptions.ValidationError(
-                    {'amount': settings.INGREDIENT_MIN_AMOUNT_ERROR}
+                    {'amount': INGREDIENT_MIN_AMOUNT_ERROR}
                 )
         return value
 
@@ -456,7 +460,7 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         cooking_time = self.initial_data.get('cooking_time')
         if int(cooking_time) <= 0:
             raise serializers.ValidationError(
-                settings.COOKING_TIME_MIN_ERROR
+                COOKING_TIME_MIN_ERROR
             )
         return data
 
@@ -465,13 +469,13 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         tags = value
         if not tags:
             raise exceptions.ValidationError(
-                {'tags': settings.TAG_ERROR}
+                {'tags': TAG_ERROR}
             )
         tags_list = []
         for tag in tags:
             if tag in tags_list:
                 raise exceptions.ValidationError(
-                    {'tags': settings.TAG_UNIQUE_ERROR}
+                    {'tags': TAG_UNIQUE_ERROR}
                 )
             tags_list.append(tag)
         return value
@@ -492,7 +496,7 @@ class AddShoppingListRecipeSerializer(AddFavoriteRecipeSerializer):
             validators.UniqueTogetherValidator(
                 queryset=ShoppingCart.objects.all(),
                 fields=['user', 'recipe'],
-                message=settings.ALREADY_BUY
+                message=ALREADY_BUY
             )
         ]
 

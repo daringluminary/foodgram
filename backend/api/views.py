@@ -24,8 +24,6 @@ from .serializers import (AvatarSerializer, FavoriteSerializer,
 
 class UserViewSet(UserViewSet):
     """Вьюсет пользователя."""
-
-    queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
     pagination_class = CustomPagination

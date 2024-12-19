@@ -1,7 +1,8 @@
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from .validators import validate_username
+from backend.constants import (LENG_DATA_USER, LIMITED_NUMBER_OF_CHARACTERS,
+                               LENG_EMAIL, )
 
 
 class User(AbstractUser):
@@ -15,7 +16,7 @@ class User(AbstractUser):
 
     username = models.CharField(
         "username",
-        max_length=150,
+        max_length=LENG_DATA_USER,
         unique=True,
         help_text="Не более 150 символов. Только буквы, цифры и @/./+/-/_.",
         validators=[validate_username],
@@ -26,38 +27,38 @@ class User(AbstractUser):
 
     first_name = models.CharField(
         'Имя',
-        max_length=settings.LENG_DATA_USER,
+        max_length=LENG_DATA_USER,
         blank=False,
         null=False,
-        help_text=settings.LIMITED_NUMBER_OF_CHARACTERS
+        help_text=LIMITED_NUMBER_OF_CHARACTERS
     )
 
     last_name = models.CharField(
         'Фамилия',
-        max_length=settings.LENG_DATA_USER,
+        max_length=LENG_DATA_USER,
         blank=False,
         null=False,
-        help_text=settings.LIMITED_NUMBER_OF_CHARACTERS
+        help_text=LIMITED_NUMBER_OF_CHARACTERS
     )
 
     email = models.EmailField(
         'Электронная почта',
-        max_length=settings.LENG_EMAIL,
+        max_length=LENG_EMAIL,
         unique=True,
         blank=False,
         null=False,
-        help_text=settings.LIMITED_NUMBER_OF_CHARACTERS
+        help_text=LIMITED_NUMBER_OF_CHARACTERS
     )
 
     password = models.CharField(
         'Пароль',
-        max_length=settings.LENG_DATA_USER,
-        help_text=settings.LIMITED_NUMBER_OF_CHARACTERS,
+        max_length=LENG_DATA_USER,
+        help_text=LIMITED_NUMBER_OF_CHARACTERS,
         blank=False,
         null=False
     )
 
-    REQUIRED_FIELDS = ["username", "first_name", "last_name"]
+    REQUIRED_FIELDS = (("username"), ("first_name"), ("last_name"))
     USERNAME_FIELD = "email"
 
     class Meta:
