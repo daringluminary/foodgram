@@ -238,7 +238,29 @@ class ShoppingCart(models.Model):
         return f'Рецепт {self.recipe} в списке покупок у {self.user}'
 
 
-class Favourites(models.Model):
+class FavoriteAndShoppingCartModel(models.Model):
+    """Абстрактная модель. Добавляет юзера и рецепт."""
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name='Пользователь',
+    )
+
+    recipe = models.ForeignKey(
+        'Recipe',
+        on_delete=models.CASCADE,
+        verbose_name='Рецепт',
+    )
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return f'{self.user} - {self.recipe}'
+
+
+class Favourites(FavoriteAndShoppingCartModel):
     """Избранное."""
 
     user = models.ForeignKey(
@@ -261,25 +283,3 @@ class Favourites(models.Model):
     class Meta:
         verbose_name = "Избранное"
         verbose_name_plural = "Избранные"
-
-
-class FavoriteAndShoppingCartModel(models.Model):
-    """Абстрактная модель. Добавляет юзера и рецепт."""
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        null=True,
-        verbose_name='Пользователь',
-    )
-
-    recipe = models.ForeignKey(
-        'Recipe',
-        on_delete=models.CASCADE,
-        verbose_name='Рецепт',
-    )
-
-    class Meta:
-        abstract = True
-
-    def __str__(self):
-        return f'{self.user} - {self.recipe}'
