@@ -13,7 +13,8 @@ class RecipeIngredientInline(admin.TabularInline):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ("name", "author", "cooking_time", "favorite_count", "tags_list",)
+    list_display = ("name", "author", "cooking_time",
+                    "favorite_count", "tags_list",)
     list_filter = ("name", "author", "tags")
     search_fields = ("name", "author", "tags")
     inlines = (RecipeIngredientInline,)
@@ -23,10 +24,12 @@ class RecipeAdmin(admin.ModelAdmin):
     def favorite_count(self, obj):
         """Получаем количество избранных."""
         return obj.in_favourites.count()
+
     @admin.display(description='Теги')
     @mark_safe
     def tags_list(self, recipe):
         return '<br>'.join(tag.name for tag in recipe.tags.all())
+
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
