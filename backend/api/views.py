@@ -1,25 +1,24 @@
-from django.http import FileResponse, JsonResponse
-from django.db.models import Sum
-from rest_framework.viewsets import ReadOnlyModelViewSet
-from rest_framework.decorators import action
-from .models import Ingredient, Recipe, Tag
-from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
-from rest_framework import permissions, status, viewsets
-from djoser.views import UserViewSet
-from users.models import Follow, User
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
+from django.db.models import Sum
+from django.http import FileResponse, JsonResponse
+from django.shortcuts import get_object_or_404
+from djoser.views import UserViewSet
+from rest_framework import permissions, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from .permissions import AuthorOrReadOnly
+from users.models import Follow, User
 from .filters import IngredientFilter, RecipeFilter
-from .utils import render_shopping_list
+from .models import Ingredient, Recipe, RecipeIngredient, ShoppingCart, Tag
 from .paginations import CustomPagination
-from .models import RecipeIngredient, ShoppingCart
+from .permissions import AuthorOrReadOnly
 from .serializers import (AvatarSerializer, FavoriteSerializer,
-                          FollowSerializer, RecipeReadSerializer,
-                          RecipeWriteSerializer, ShortRecipeSerializer,
-                          UserSerializer, TagSerializer, IngredientSerializer)
+                          FollowSerializer, IngredientSerializer,
+                          RecipeReadSerializer, RecipeWriteSerializer,
+                          ShortRecipeSerializer, TagSerializer, UserSerializer)
+from .utils import render_shopping_list
 
 
 class UserViewSet(UserViewSet):

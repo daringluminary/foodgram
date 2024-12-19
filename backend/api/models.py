@@ -1,12 +1,13 @@
-from django.db import models
-from backend.constants import (LENG_MAX, MAX_NUMBER_OF_CHARACTERS,
-                               MAX_LENG, INGREDIENT_MIN_AMOUNT,
-                               LEN_RECIPE_NAME, MIN_COOKING_TIME,
-                               MAX_COOKING_TIME, INGREDIENT_MIN_AMOUNT_ERROR,
-                               MIN_AMOUNT, MAX_AMOUNT)
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core import validators
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+
 from users.models import User
+from backend.constants import (INGREDIENT_MIN_AMOUNT,
+                               INGREDIENT_MIN_AMOUNT_ERROR, LEN_RECIPE_NAME,
+                               LENG_MAX, MAX_AMOUNT, MAX_COOKING_TIME,
+                               MAX_LENG, MAX_NUMBER_OF_CHARACTERS, MIN_AMOUNT,
+                               MIN_COOKING_TIME)
 
 
 class IngredientTagRecipe(models.Model):

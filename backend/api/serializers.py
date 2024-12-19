@@ -1,18 +1,19 @@
 import base64
-from django.db import models, transaction
-from rest_framework.validators import UniqueTogetherValidator
-from users.models import Follow, User
+
 from django.core.files.base import ContentFile
+from django.db import models, transaction
+from rest_framework import (exceptions, fields, relations, serializers, status,
+                            validators)
 from rest_framework.exceptions import PermissionDenied
-from rest_framework import (exceptions, fields, relations, serializers,
-                            status, validators)
-from .models import (Favourites, IngredientInRecipe,
-                     RecipeIngredient, ShoppingCart, Tag, Ingredient, Recipe)
-from backend.constants import (DUBLICAT_USER, SELF_FOLLOW, ALREADY_BUY,
-                               RECIPE_IN_FAVORITE, COOKING_TIME_MIN_ERROR,
-                               TAG_ERROR, TAG_UNIQUE_ERROR,
-                               INGREDIENT_MIN_AMOUNT_ERROR,
-                               INGREDIENT_DUBLICATE_ERROR,)
+from rest_framework.validators import UniqueTogetherValidator
+
+from users.models import Follow, User
+from .models import (Favourites, Ingredient, IngredientInRecipe, Recipe,
+                     RecipeIngredient, ShoppingCart, Tag)
+from backend.constants import (ALREADY_BUY, COOKING_TIME_MIN_ERROR,
+                               DUBLICAT_USER, INGREDIENT_DUBLICATE_ERROR,
+                               INGREDIENT_MIN_AMOUNT_ERROR, RECIPE_IN_FAVORITE,
+                               SELF_FOLLOW, TAG_ERROR, TAG_UNIQUE_ERROR)
 
 
 class Base64ImageField(serializers.ImageField):
