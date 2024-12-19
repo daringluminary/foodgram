@@ -17,11 +17,14 @@ class RecipeAdmin(admin.ModelAdmin):
     search_fields = ("name", "author", "tags")
     inlines = (RecipeIngredientInline,)
     empty_value_display = "-пусто-"
-
-    @admin.display(description='Количество в избранных')
     def favorite_count(self, obj):
-        """Получаем количество избранных."""
-        return obj.favorites.count()
+        return obj.in_favourites.count()
+
+    favorite_count.short_description = "Количество добавлений в избранное"
+    # @admin.display(description='Количество в избранных')
+    # def favorite_count(self, obj):
+    #     """Получаем количество избранных."""
+    #     return obj.in_favourites.count()
 
 
 @admin.register(Ingredient)

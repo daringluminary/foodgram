@@ -7,7 +7,6 @@ from django.core.files.base import ContentFile
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import (exceptions, fields, relations, serializers,
                             status, validators)
-
 from .models import (Favourites, IngredientInRecipe,
                      RecipeIngredient, ShoppingCart, Tag, Ingredient, Recipe)
 
@@ -207,7 +206,7 @@ class RecipeReadSerializer(serializers.ModelSerializer):
         """Проверка - находится ли рецепт в избранном."""
         request = self.context.get('request')
         return (request and request.user.is_authenticated
-                and request.user.favorites.filter(recipe=obj).exists())
+                and request.user.favourites.filter(recipe=obj).exists())
 
     def get_is_in_shopping_cart(self, obj):
         """Проверка - находится ли рецепт в списке покупок."""
