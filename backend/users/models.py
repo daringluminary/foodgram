@@ -29,8 +29,6 @@ class User(AbstractUser):
     first_name = models.CharField(
         'Имя',
         max_length=LENG_DATA_USER,
-        blank=False,
-        null=False,
         help_text=LIMITED_NUMBER_OF_CHARACTERS
     )
 
@@ -59,7 +57,7 @@ class User(AbstractUser):
         null=False
     )
 
-    REQUIRED_FIELDS = (("username"), ("first_name"), ("last_name"))
+    REQUIRED_FIELDS = ("username", "first_name", "last_name")
     USERNAME_FIELD = "email"
 
     class Meta:
@@ -94,7 +92,7 @@ class Follow(models.Model):
         ordering = ('user',)
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'author'],
+                fields=('user', 'author'),
                 name='unique_follow'
             ),
             models.CheckConstraint(

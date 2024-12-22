@@ -1,7 +1,9 @@
 import re
+
 from django.core.exceptions import ValidationError
-from backend.constants import (USERNAME_REGEX, NOT_ALLOWED_CHAR_MSG,
-                               NOT_ALLOWED_ME)
+
+from backend.constants import (NOT_ALLOWED_CHAR_MSG, NOT_ALLOWED_ME,
+                               USERNAME_REGEX)
 
 
 def validate_username(username):

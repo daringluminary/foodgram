@@ -29,9 +29,9 @@ class UserViewSet(UserViewSet):
 
     def get_permissions(self):
         if self.action == "me":
-            return [permissions.IsAuthenticated()]
+            return (permissions.IsAuthenticated(),)
         if self.action in ("list", "retrieve"):
-            return [permissions.AllowAny()]
+            return (permissions.AllowAny(),)
         return super().get_permissions()
 
     @action(
