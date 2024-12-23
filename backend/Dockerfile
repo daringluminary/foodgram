@@ -1,11 +1,11 @@
-FROM python:3.9-slim
+FROM python:3.9
 
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install gunicorn==20.1.0 && \
-    pip install -r requirements.txt --no-cache-dir
 
-COPY . ./
+RUN pip install -r /app/requirements.txt --no-cache-dir
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi"]
+COPY . .
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8500", "foodgram.wsgi"]
