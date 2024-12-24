@@ -30,6 +30,7 @@ services:
 
   gateway:
     image: lisaperevalova/foodgram_gateway
+    build: ./nginx/
     env_file: .env
     ports:
       - 8500:80
@@ -39,38 +40,3 @@ services:
     depends_on:
       - backend
       - frontend
-# volumes:
-#   pg_data:
-#   static:
-#   media:
-# services:
-#   db:
-#     image: postgres:13.10
-#     env_file: .env
-#     volumes:
-#       - pg_data:/var/lib/postgresql/data
-#   backend:
-#     image: lisaperevalova/foodgram_backend
-#     env_file: .env
-#     volumes:
-#       - static_volume:/backend_static/
-#       - media:/app/media/
-#     depends_on:
-#       - db
-#   frontend:
-#     env_file: .env
-#     image: lisaperevalova/foodgram_frontend
-#     command: cp -r /app/build/. /frontend_static/
-#     volumes:
-#       - static:/frontend_static
-#   gateway:
-#     image: lisaperevalova/foodgram_gateway
-#     env_file: .env
-#     ports:
-#       - 8500:80
-#     volumes:
-#       - static_volume:/staticfiles/
-#       - media:/app/media
-#     depends_on:
-#       - backend
-#       - frontend
